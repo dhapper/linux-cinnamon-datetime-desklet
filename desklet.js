@@ -12,44 +12,84 @@ MyDesklet.prototype = {
     _init: function(metadata, desklet_id) {
         Desklet.Desklet.prototype._init.call(this, metadata, desklet_id);
 
-        // Create text label
-        this.label = new St.Label({
-            text: "Loading...",
-            style_class: "clock-label"
+        // Container to hold multiple labels (VERTICAL layout)
+        this.container = new St.BoxLayout({
+            vertical: true
         });
 
-        // Add label directly as desklet content
-        this.setContent(this.label);
+        // Main time label
+        this.timeLabel = new St.Label({
+            text: "Loading...",
+            style_class: "clock-time-label"
+        });
+
+        // Under text label (weekday + month + day)
+        this.dateLabel = new St.Label({
+            text: "Loading...",
+            style_class: "clock-date-label"
+        });
+
+        // Add labels to container
+        this.container.add(this.timeLabel);
+        this.container.add(this.dateLabel);
+
+        // Set container as desklet content ONCE
+        this.setContent(this.container);
 
         // Start updating time
         this._updateTime();
     },
 
     _updateTime: function() {
-        // Current date/time
         let now = new Date();
 
-        // Extract values
-        let hour24 = now.getHours();     // 0–23
-        let minute = now.getMinutes();  // 0–59
+        // ----- TIME -----
+        let hour24 = now.getHours();
+        let minute = now.getMinutes();
 
-        // Convert to 12-hour format
         let hour12 = hour24 % 12;
-        if (hour12 === 0) {
-            hour12 = 12;
-        }
+        if (hour12 === 0) hour12 = 12;
 
-        // AM / PM
         let ampm = hour24 >= 12 ? "PM" : "AM";
-
-        // Pad minutes
         let minutePadded = minute < 10 ? "0" + minute : minute;
 
-        // Build custom string: HH:MM PM
         let timeString = `${hour12}:${minutePadded} ${ampm}`;
 
-        // Update label
-        this.label.set_text(timeString);
+        // ----- DATE -----
+        let weekdayNumber = now.getDay(); // 0–6
+        let dayOfMonth = now.getDate();   // 1–31
+        let monthNumber = now.getMonth(); // 0–11
+
+        let weekdays = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ];
+
+        let months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+        let dateString = `${weekdays[weekdayNumber]}, ${months[monthNumber]} ${dayOfMonth}`;
+
+        // Update labels
+        this.timeLabel.set_text(timeString);
+        this.dateLabel.set_text(dateString);
 
         // Update every second
         this.timeout = Mainloop.timeout_add_seconds(1, () => {
