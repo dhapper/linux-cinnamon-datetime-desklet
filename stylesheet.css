@@ -5,6 +5,7 @@
     color: white;
     text-shadow: 4px 4px 8px black;
     background-color: transparent;
+    text-align: center;
 }
 
 .clock-date-label {
@@ -14,4 +15,5 @@
     color: white;
     text-shadow: 4px 4px 8px black;
     background-color: transparent;
+    text-align: center;
 }
