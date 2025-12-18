@@ -1,0 +1,15 @@
+.clock-label {
+    font-family: 'Helvetica Neue';
+    font-size: 128px;
+    font-weight: 100;
+    color: white;
+    text-shadow: 4px 4px 8px black;
+    /* background-color: rgba(0, 0, 0, 0); */
+    background-color: transparent !important;
+}
+
+.container {
+    background-color: red;
+    box-shadow: none;
+    border: none;
+}

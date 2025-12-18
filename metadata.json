@@ -1,0 +1,7 @@
+{
+  "uuid": "simpleClock@dhaarshan",
+  "name": "Simple Clock",
+  "description": "A very simple custom clock desklet",
+  "version": 1,
+  "max-instances": 1
+}
